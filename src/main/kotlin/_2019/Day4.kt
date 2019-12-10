@@ -7,49 +7,45 @@ import kotlin.streams.toList
 fun main() {
     aocRun(puzzleInput) { input ->
         return@aocRun getRangeStream(input)
-            // Has two adjacent same digits
-            .filter {
-                (1 until it.length).forEach { i ->
-                    if (it[i] == it[i - 1])
-                        return@filter true
-                }
-                return@filter false
-            }
-            // Digits ascend
-            .filter {
-                (1 until it.length).forEach { i ->
-                    if (it[i].toString().toInt() < it[i - 1].toString().toInt())
-                        return@filter false
-                }
-                return@filter true
-            }
+            .filter { hasAscendingDigits(it) }
+            .filter { hasAdjacentDigits(it) }
             .count()
     }
 
     aocRun(puzzleInput) { input ->
         val result = getRangeStream(input)
-            // Has two adjacent same digits but not part of larger group
-            .filter {
-                val adjacentCounts = mutableMapOf<Char, Int>()
-                (1 until it.length).forEach { i ->
-                    if (it[i] == it[i - 1])
-                        adjacentCounts.compute(it[i]) { _, v -> v?.plus(1) ?: 2 }
-                }
-                return@filter adjacentCounts.containsValue(2) || adjacentCounts.isEmpty()
-            }
-            // Digits ascend
-            .filter {
-                (1 until it.length).forEach { i ->
-                    if (it[i].toString().toInt() < it[i - 1].toString().toInt())
-                        return@filter false
-                }
-                return@filter true
-            }
+            .filter { hasAscendingDigits(it) }
+            .filter { hasAdjacentDigitsDoubles(it) }
             .toList()
 //            .count()
         repeat(20) { println(result.random()) }
         return@aocRun result.size
     }
+}
+
+private fun hasAscendingDigits(number: String): Boolean {
+    (1 until number.length).forEach { i ->
+        if (number[i].toString().toInt() < number[i - 1].toString().toInt())
+            return false
+    }
+    return true
+}
+
+private fun hasAdjacentDigits(number: String): Boolean {
+    (1 until number.length).forEach { i ->
+        if (number[i] == number[i - 1])
+            return true
+    }
+    return false
+}
+
+private fun hasAdjacentDigitsDoubles(number: String): Boolean {
+    val adjacentCounts = mutableMapOf<Char, Int>()
+    (1 until number.length).forEach { i ->
+        if (number[i] == number[i - 1])
+            adjacentCounts.compute(number[i]) { _, v -> v?.plus(1) ?: 2 }
+    }
+    return adjacentCounts.containsValue(2) || adjacentCounts.isEmpty()
 }
 
 private fun getRangeStream(input: String): Stream<String> = input.split('-').let {
