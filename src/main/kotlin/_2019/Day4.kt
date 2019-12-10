@@ -21,6 +21,13 @@ fun main() {
         repeat(20) { println(result.random()) }
         return@aocRun result.size
     }
+
+    /*listOf("112233", "123444", "111122").forEach {
+        println(it)
+        println("\tAscending: ${hasAscendingDigits(it)}")
+        println("\tAdjacent: ${hasAdjacentDigits(it)}")
+        println("\tAdjacent Doubles: ${hasAdjacentDigitsDoubles(it)}")
+    }*/
 }
 
 private fun hasAscendingDigits(number: String): Boolean {
