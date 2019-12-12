@@ -4,11 +4,12 @@ import aocRun
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        return@aocRun IntcodeComputer.parseCode(input).apply {
+        IntcodeComputer.parseCode(input).apply {
             set(1, 12)
             set(2, 2)
             IntcodeComputer.execute(this)
         }
+        return@aocRun IntcodeComputer.lastCode[0]
         /*return@aocRun parseInput(input).apply {
             set(1, 12)
             set(2, 2)
