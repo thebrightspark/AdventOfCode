@@ -1,13 +1,12 @@
 package _2018
 
 import aocRun
-import splitInput
 
 fun main() {
     aocRun(puzzleInput) { input ->
         var twice = 0
         var thrice = 0
-        input.splitInput().map { id ->
+        input.split("\n").map { id ->
             val counts = mutableMapOf<Char, Int>()
             id.toCharArray().forEach { char -> counts.compute(char) { _, count -> (count ?: 0) + 1 } }
             if (counts.count { it.value == 2 } >= 1)
@@ -19,7 +18,7 @@ fun main() {
     }
 
     aocRun(puzzleInput) { input ->
-        val inputList = input.splitInput()
+        val inputList = input.split("\n")
         val size = inputList.size
         inputList.subList(0, size - 1).forEachIndexed { index1, id1 ->
             inputList.subList(index1 + 1, size).forEach { id2 ->

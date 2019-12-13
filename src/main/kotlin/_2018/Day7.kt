@@ -1,7 +1,6 @@
 package _2018
 
 import aocRun
-import splitInput
 import java.util.regex.Pattern
 import kotlin.math.min
 
@@ -108,7 +107,7 @@ fun main() {
     }
 }
 
-private fun processSteps(input: String): List<Pair<Char, Char>> = input.splitInput().map {
+private fun processSteps(input: String): List<Pair<Char, Char>> = input.split("\n").map {
     val matcher = pattern.matcher(it)
     if (!matcher.find())
         throw RuntimeException("Not a valid input! -> '$it'")

@@ -2,7 +2,6 @@ package _2018
 
 import aocRun
 import forEachComparison
-import splitInput
 import java.awt.Point
 import java.awt.Rectangle
 import java.util.regex.Pattern
@@ -11,7 +10,7 @@ private val pattern = Pattern.compile("#(?<i>\\d+) @ (?<x>\\d+),(?<y>\\d+): (?<w
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        val rectangles = input.splitInput().map { stringToRectangle(it) }
+        val rectangles = input.split("\n").map { stringToRectangle(it) }
         val intersections = mutableSetOf<Rectangle>()
         rectangles.forEachComparison { r1, r2 ->
             val intersection = r1.intersection(r2)
@@ -31,7 +30,7 @@ fun main() {
     }
 
     aocRun(puzzleInput) { input ->
-        val rectangles = input.splitInput().map { stringToRectangle(it) }
+        val rectangles = input.split("\n").map { stringToRectangle(it) }
         val cleanRectangles = HashSet(rectangles)
         rectangles.forEachIndexed outerLoop@{ index1, rect1 ->
             rectangles.forEachIndexed innerLoop@{ index2, rect2 ->

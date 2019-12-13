@@ -2,12 +2,11 @@ package _2019
 
 import aocRun
 import range
-import splitInput
 import kotlin.math.abs
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        val wiresRaw = input.splitInput()
+        val wiresRaw = input.split("\n")
         val wire1 = parseWire(wiresRaw[0])
         val wire2 = parseWire(wiresRaw[1])
         val intersections = intersections(wire1, wire2)
@@ -15,7 +14,7 @@ fun main() {
     }
 
     aocRun(puzzleInput) { input ->
-        val wiresRaw = input.splitInput()
+        val wiresRaw = input.split("\n")
         val wire1 = parseWire(wiresRaw[0])
         val wire2 = parseWire(wiresRaw[1])
         val intersections = intersections(wire1, wire2)

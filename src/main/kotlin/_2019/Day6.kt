@@ -1,12 +1,11 @@
 package _2019
 
 import aocRun
-import splitInput
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        val orbits = parseOrbits(input)
-
+        val orbits =
+            input.split("\n").map { it.split(')').run { get(0) to get(1) } }.groupBy({ it.first }, { it.second })
         var orbitLevel = 1
         var totalOrbits = 0
         var nextObjects = orbits.getValue("COM").toList()
@@ -19,40 +18,23 @@ fun main() {
     }
 
     aocRun(puzzleInput) { input ->
-        val orbitPairs = input.splitInput().map { it.split(')').run { get(0) to get(1) } }
-        val linkedObjects = orbitPairs.groupByTo(mutableMapOf(), { it.first }, { it.second })
-        orbitPairs.groupBy({ it.second }, { it.first }).forEach { (k, v) ->
-            linkedObjects.compute(k) { _, list -> list?.apply { addAll(v) } ?: v.toMutableList() }
-        }
-        val paths = findPath("SAN", linkedObjects, mutableListOf("YOU")).map { it.size }
-        println("Path lengths found: $paths")
-        return@aocRun paths.min()!!
+        val orbits = input.split("\n").map { it.split(')').run { get(1) to get(0) } }.toMap()
+        val youPath = orbitPath(orbits, "YOU").reversed()
+        println(youPath)
+        val santaPath = orbitPath(orbits, "SAN").reversed()
+        println(santaPath)
+        val intersect = youPath.intersect(santaPath)
+        println(intersect)
+        return@aocRun youPath.size + santaPath.size - (intersect.size * 2) - 2
     }
 }
 
-private fun findPath(
-    destination: String,
-    orbits: Map<String, List<String>>,
-    path: MutableList<String>,
-    completePaths: MutableList<List<String>> = mutableListOf()
-): List<List<String>> {
-    val orbiting = orbits.getValue(path.last()).filter { !path.contains(it) }
-    if (orbiting.isEmpty())
-        return completePaths
-    if (orbiting.contains(destination))
-        return completePaths.apply { add(path.apply { add(destination) }) }
-    orbiting.forEach {
-        val newPath = path.toMutableList().apply { add(it) }
-//        println("Checking path: $newPath")
-        val resultPath = findPath(destination, orbits, newPath)
-        if (resultPath.isNotEmpty() && resultPath.last().last() == destination)
-            return resultPath
-    }
-    return completePaths
-}
-
-private fun parseOrbits(input: String) =
-    input.splitInput().map { it.split(')').run { get(0) to get(1) } }.groupBy({ it.first }, { it.second })
+private tailrec fun orbitPath(
+    orbits: Map<String, String>,
+    obj: String,
+    path: MutableList<String> = mutableListOf()
+): MutableList<String> =
+    if (orbits.containsKey(obj)) orbitPath(orbits, orbits.getValue(obj), path.apply { add(obj) }) else path
 
 private val testInput = """
 COM)B

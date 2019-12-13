@@ -2,7 +2,6 @@ package _2018
 
 import aocRun
 import format
-import splitInput
 import java.time.Duration
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -93,7 +92,7 @@ fun main() {
 }
 
 private fun parseRecords(input: String): List<Record> {
-    val records = input.splitInput()
+    val records = input.split("\n")
         .map {
             val matcher = pattern.matcher(it)
             if (!matcher.find())

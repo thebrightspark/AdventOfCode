@@ -2,7 +2,6 @@ package _2018
 
 import aocRun
 import forEachPoint
-import splitInput
 import java.awt.Point
 import java.awt.Rectangle
 import kotlin.math.abs
@@ -62,7 +61,7 @@ fun main() {
     }
 }
 
-private fun processLocations(input: String): List<Point> = input.splitInput().map {
+private fun processLocations(input: String): List<Point> = input.split("\n").map {
     val parts = it.split(",")
     return@map Point(parts[0].trim().toInt(), parts[1].trim().toInt())
 }
