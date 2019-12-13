@@ -4,12 +4,11 @@ import aocRun
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        IntcodeComputer.parseCode(input).apply {
+        val code = IntcodeComputer.parseCode(input).apply {
             set(1, 12)
             set(2, 2)
-            IntcodeComputer.execute(this)
         }
-        return@aocRun IntcodeComputer.lastCode[0]
+        return@aocRun IntcodeComputer(code).execute().code[0]
         /*return@aocRun parseInput(input).apply {
             set(1, 12)
             set(2, 2)
@@ -21,12 +20,11 @@ fun main() {
         val baseCode = IntcodeComputer.parseCode(input)
         (0..99).forEach { noun ->
             (0..99).forEach { verb ->
-                val val0 = baseCode.toMutableList().apply {
+                val code = baseCode.toMutableList().apply {
                     set(1, noun)
                     set(2, verb)
-                    IntcodeComputer.execute(this)
-                }[0]
-                if (val0 == 19690720)
+                }
+                if (IntcodeComputer(code).execute().code[0] == 19690720)
                     return@aocRun 100 * noun + verb
             }
         }

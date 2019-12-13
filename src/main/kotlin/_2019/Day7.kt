@@ -6,38 +6,41 @@ fun main() {
     aocRun(testInput1) { input ->
         // TESTING
 
-        IntcodeComputer.debug = true
         val code = IntcodeComputer.parseCode(input)
-        println("Amp A")
-        IntcodeComputer.execute(code.toMutableList(), 4, 0)
-        println("Amp B")
-        IntcodeComputer.execute(code.toMutableList(), 3, IntcodeComputer.lastOutput.toInt())
-        println("Amp C")
-        IntcodeComputer.execute(code.toMutableList(), 2, IntcodeComputer.lastOutput.toInt())
-        println("Amp D")
-        IntcodeComputer.execute(code.toMutableList(), 1, IntcodeComputer.lastOutput.toInt())
-        println("Amp E")
-        IntcodeComputer.execute(code.toMutableList(), 0, IntcodeComputer.lastOutput.toInt())
+        IntcodeComputer().apply {
+            debug = true
+            println("Amp A")
+            init(code.toMutableList(), 4, 0).execute()
+            println("Amp B")
+            init(code.toMutableList(), 3, lastOutput.toInt()).execute()
+            println("Amp C")
+            init(code.toMutableList(), 2, lastOutput.toInt()).execute()
+            println("Amp D")
+            init(code.toMutableList(), 1, lastOutput.toInt()).execute()
+            println("Amp E")
+            init(code.toMutableList(), 0, lastOutput.toInt()).execute()
+            return@aocRun lastOutput
+        }
     }
 
     aocRun(testInput1) { input ->
-//        IntcodeComputer.printOut = false
         val code = IntcodeComputer.parseCode(input)
+        val computer = IntcodeComputer()
         var max = Int.MIN_VALUE
         phaseSettingValues.forEach { a ->
-            val ampA = runAmplifier(code, "A", a)
+            val ampA = runAmplifier(computer, code, "A", a)
             phaseSettingValues.forEach b@{ b ->
                 if (b == a) return@b
-                val ampB = runAmplifier(code, "B", a, ampA)
+                val ampB = runAmplifier(computer, code, "B", a, ampA)
                 phaseSettingValues.forEach c@{ c ->
                     if (c == a || c == b) return@c
-                    val ampC = runAmplifier(code, "C", a, ampB)
+                    val ampC = runAmplifier(computer, code, "C", a, ampB)
                     phaseSettingValues.forEach d@{ d ->
                         if (d == a || d == b || d == c) return@d
-                        val ampD = runAmplifier(code, "D", a, ampC)
+                        val ampD = runAmplifier(computer, code, "D", a, ampC)
                         phaseSettingValues.forEach e@{ e ->
                             if (e == a || e == b || e == c || e == d) return@e
-                            val ampE = runAmplifier(code, "E", a, ampD)
+                            val ampE = runAmplifier(computer, code, "E", a, ampD)
                             println("$a$b$c$d$e -> $ampE")
                             if (ampE > max)
                                 max = ampE
@@ -52,10 +55,9 @@ fun main() {
 
 private val phaseSettingValues = Array(5) { it }
 
-private fun runAmplifier(code: List<Int>, amp: String, phaseSetting: Int, inputSignal: Int = 0): Int {
+private fun runAmplifier(computer: IntcodeComputer, code: List<Int>, amp: String, phaseSetting: Int, inputSignal: Int = 0): Int {
     println("Executing amp $amp with inputs: $phaseSetting and $inputSignal")
-    IntcodeComputer.execute(code.toMutableList(), phaseSetting, inputSignal)
-    return IntcodeComputer.lastOutput.toInt()
+    return computer.init(code.toMutableList(), phaseSetting, inputSignal).execute().lastOutput.toInt()
 }
 
 private const val testInput1 = "3,15,3,16,1002,16,10,16,1,16,15,15,4,15,99,0,0"
