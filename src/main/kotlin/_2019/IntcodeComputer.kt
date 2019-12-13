@@ -2,6 +2,7 @@ package _2019
 
 object IntcodeComputer {
     var debug = false
+    var printOut = true
     var lastCode: MutableList<Int> = mutableListOf()
         private set
     var lastOutput: String = ""
@@ -11,7 +12,7 @@ object IntcodeComputer {
 
     fun execute(code: String, input: Int = 0) = execute(parseCode(code), input)
 
-    fun execute(code: MutableList<Int>, input: Int = 0) {
+    fun execute(code: MutableList<Int>, vararg input: Int = intArrayOf(0)) {
         lastCode = code
         LocalContext(code, input).apply {
             var lastPointer = pointer
@@ -35,8 +36,9 @@ object IntcodeComputer {
         return@Array "($value${if (mode == ParamMode.POSITION) "->${context.code[value]}" else ""})"
     }.joinToString()
 
-    private class LocalContext(val code: MutableList<Int>, val input: Int) {
+    private class LocalContext(val code: MutableList<Int>, val input: IntArray) {
         var pointer: Int = 0
+        var nextInput: Int = 0
         lateinit var opCode: OpCode
         val paramModes = arrayOf(ParamMode.POSITION, ParamMode.POSITION, ParamMode.POSITION)
 
@@ -67,6 +69,12 @@ object IntcodeComputer {
         fun set(index: Int, value: Int) {
             code[code[pointer + index + 1]] = value
         }
+
+        fun getInput(): Int {
+            val i = input[nextInput++]
+            println("Got input: $i")
+            return i
+        }
     }
 
     @Suppress("unused")
@@ -85,14 +93,15 @@ object IntcodeComputer {
         },
         IN(3, 1) {
             override fun execute(context: LocalContext) {
-                context.set(0, context.input)
+                context.set(0, context.getInput())
                 super.execute(context)
             }
         },
         OUT(4, 1) {
             override fun execute(context: LocalContext) {
                 lastOutput = context.get(0).toString()
-                println("Output (${context.pointer}): $lastOutput")
+                if (printOut)
+                    println("Output (${context.pointer}): $lastOutput")
                 super.execute(context)
             }
         },
