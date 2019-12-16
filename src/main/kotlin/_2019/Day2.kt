@@ -18,13 +18,13 @@ fun main() {
 
     aocRun(puzzleInput) { input ->
         val baseCode = IntcodeComputer.parseCode(input)
-        (0..99).forEach { noun ->
-            (0..99).forEach { verb ->
+        (0.toLong()..99.toLong()).forEach { noun ->
+            (0.toLong()..99.toLong()).forEach { verb ->
                 val code = baseCode.toMutableList().apply {
                     set(1, noun)
                     set(2, verb)
                 }
-                if (IntcodeComputer(code).execute().code[0] == 19690720)
+                if (IntcodeComputer(code).execute().code[0] == 19690720.toLong())
                     return@aocRun 100 * noun + verb
             }
         }
