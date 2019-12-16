@@ -56,10 +56,11 @@ private fun stringToRectangle(input: String): Rect {
         matcher.group("x").toInt(),
         matcher.group("y").toInt(),
         matcher.group("w").toInt(),
-        matcher.group("h").toInt())
+        matcher.group("h").toInt()
+    )
 }
 
-private class Rect(val id: Int, x: Int, y: Int, w: Int, h: Int): Rectangle(x, y, w, h) {
+private class Rect(val id: Int, x: Int, y: Int, w: Int, h: Int) : Rectangle(x, y, w, h) {
     override fun equals(other: Any?): Boolean = other is Rect && other.id == id
 
     override fun hashCode(): Int = id

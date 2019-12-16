@@ -42,7 +42,11 @@ fun main() {
         val filteredSizes = sizes.toMutableMap()
         filteredSizes.entries.removeIf { smallerSizes[it.key] != it.value }
         println("Removed ${sizes.size - filteredSizes.size} outliers that expand infinitely")
-        println("Sizes of remaining IDs:\n${filteredSizes.entries.sortedBy { it.value }.joinToString("\n", transform = { "${it.key} -> ${it.value}" })}")
+        println(
+            "Sizes of remaining IDs:\n${filteredSizes.entries.sortedBy { it.value }.joinToString(
+                "\n",
+                transform = { "${it.key} -> ${it.value}" })}"
+        )
 
         return@aocRun filteredSizes.maxBy { it.value }!!.value
     }

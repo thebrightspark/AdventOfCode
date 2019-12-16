@@ -60,7 +60,11 @@ private fun calculateHighestScore(players: Int, last: Int, printCompletionPct: B
             val curTime = System.currentTimeMillis()
             if (curTime >= nextTime) {
                 nextTime = curTime + timePeriodMillis
-                println("${numFormat.format(nextMarbleNum)} / ${numFormat.format(last)} (+${numFormat.format(nextMarbleNum - lastStatNum)}) -> ${pctFormat.format(nextMarbleNum.toFloat() / last.toFloat())} complete")
+                println(
+                    "${numFormat.format(nextMarbleNum)} / ${numFormat.format(last)} (+${numFormat.format(
+                        nextMarbleNum - lastStatNum
+                    )}) -> ${pctFormat.format(nextMarbleNum.toFloat() / last.toFloat())} complete"
+                )
                 lastStatNum = nextMarbleNum
                 doStats = true
             }

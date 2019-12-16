@@ -28,7 +28,7 @@ class IntcodeComputer {
         input = longArrayOf()
     }
 
-    constructor(code: String, vararg input: Long = longArrayOf(0)): this(parseCode(code), *input)
+    constructor(code: String, vararg input: Long = longArrayOf(0)) : this(parseCode(code), *input)
 
     constructor(code: MutableList<Long>, vararg input: Long = longArrayOf(0)) {
         init(code, *input)
@@ -159,8 +159,7 @@ class IntcodeComputer {
                     pointer = get(1).toInt()
                     if (debug)
                         println("JUMP_IF_NOT_0: $pointer")
-                }
-                else
+                } else
                     super.execute(this)
             }
         },
@@ -217,17 +216,20 @@ class IntcodeComputer {
         companion object {
             private val VALUES_MAP = values().associateBy { it.code }
 
-            fun fromCode(opCode: Int) = VALUES_MAP[opCode] ?: throw RuntimeException("OpCode doesn't exist for code $opCode")
+            fun fromCode(opCode: Int) =
+                VALUES_MAP[opCode] ?: throw RuntimeException("OpCode doesn't exist for code $opCode")
         }
     }
 
     private enum class ParamMode {
         POSITION {
             override fun getValue(computer: IntcodeComputer, value: Long): Long = computer.getDirect(value.toInt())
+
             override fun getIndex(computer: IntcodeComputer, index: Int): Int = computer.getDirect(index).toInt()
         },
         IMMEDIATE {
             override fun getValue(computer: IntcodeComputer, value: Long): Long = value
+
             override fun getIndex(computer: IntcodeComputer, index: Int): Int = computer.run {
                 throw RuntimeException("Can't use IMMEDIATE mode for set operation at $pointer:$opCode -> ${getParamInfo()}")
             }
@@ -235,6 +237,7 @@ class IntcodeComputer {
         RELATIVE {
             override fun getValue(computer: IntcodeComputer, value: Long): Long =
                 computer.run { getDirect((relativeBase + value).toInt()) }
+
             override fun getIndex(computer: IntcodeComputer, index: Int): Int =
                 (computer.relativeBase + computer.getDirect(index)).toInt()
         };

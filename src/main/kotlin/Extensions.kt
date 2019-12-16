@@ -3,8 +3,6 @@ import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import kotlin.math.max
-import kotlin.math.min
 
 private val numberFormat = NumberFormat.getNumberInstance()
 
@@ -12,12 +10,13 @@ fun Number.format(): String = numberFormat.format(this)
 
 fun String.splitInputToInt(): List<Int> = this.split("\n").map { it.toInt() }
 
-fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T) = this.split(delimiter).map {
-    val matcher = regex.matcher(it)
-    if (matcher.matches())
-        throw RuntimeException("Input '$it' doesn't match regex '${regex.pattern()}'")
-    return@map converter(matcher)
-}
+fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T) =
+    this.split(delimiter).map {
+        val matcher = regex.matcher(it)
+        if (matcher.matches())
+            throw RuntimeException("Input '$it' doesn't match regex '${regex.pattern()}'")
+        return@map converter(matcher)
+    }
 
 /**
  * Runs the [consumer] for each unique comparison of values in the list.
