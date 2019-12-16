@@ -3,9 +3,9 @@ package _2019
 import aocRun
 
 fun main() {
-    aocRun(puzzleInput) { input ->
-        return@aocRun IntcodeComputer(input, 1).execute().lastOutput
-    }
+    aocRun(puzzleInput) { IntcodeComputer(it, 1).execute().lastOutput }
+
+    aocRun(puzzleInput) { IntcodeComputer(it, 2).execute().lastOutput }
 }
 
 private const val puzzleInput =
