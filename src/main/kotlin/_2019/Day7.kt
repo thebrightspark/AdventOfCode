@@ -3,26 +3,6 @@ package _2019
 import aocRun
 
 fun main() {
-    aocRun(testInput1) { input ->
-        // TESTING
-
-        val code = IntcodeComputer.parseCode(input)
-        IntcodeComputer().apply {
-            debug = true
-            println("Amp A")
-            init(code.toMutableList(), 4, 0).execute()
-            println("Amp B")
-            init(code.toMutableList(), 3, lastOutput.toInt()).execute()
-            println("Amp C")
-            init(code.toMutableList(), 2, lastOutput.toInt()).execute()
-            println("Amp D")
-            init(code.toMutableList(), 1, lastOutput.toInt()).execute()
-            println("Amp E")
-            init(code.toMutableList(), 0, lastOutput.toInt()).execute()
-            return@aocRun lastOutput
-        }
-    }
-
     aocRun(puzzleInput) { input ->
         val code = IntcodeComputer.parseCode(input)
         val computer = IntcodeComputer()
