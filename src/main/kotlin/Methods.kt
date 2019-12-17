@@ -1,6 +1,7 @@
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import java.util.stream.Collectors
+import kotlin.math.abs
 import kotlin.system.measureNanoTime
 
 private var runs = 0
@@ -29,7 +30,22 @@ fun <T> parseInput(regex: Pattern, input: String, inputDelimiter: String = "\n",
         }
         .collect(Collectors.toList())
 
+/**
+ * Gets an [IntProgression] from [int1] to [int2] regardless of which is larger than the other
+ */
 fun range(int1: Int, int2: Int) = if (int1 == int2)
     IntRange.EMPTY
 else
     IntProgression.fromClosedRange(int1, int2, if (int1 < int2) 1 else -1)
+
+/**
+ * Gets an [IntProgression] of the integers between [int1] and [int2] regardless of which is larger than the other
+ */
+fun between(int1: Int, int2: Int) = if (abs(int1 - int2) < 2)
+    IntRange.EMPTY
+else
+    IntProgression.fromClosedRange(
+        if (int1 < int2) int1 + 1 else int1 - 1,
+        if (int2 < int1) int2 + 1 else int2 - 1,
+        if (int1 < int2) 1 else -1
+    )
