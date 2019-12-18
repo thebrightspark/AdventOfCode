@@ -7,20 +7,18 @@ fun main() {
 
     aocRun(puzzleInput) { input ->
         val panels = paint(input, PaintColour.WHITE)
-        var minX = Int.MAX_VALUE
-        var maxX = Int.MIN_VALUE
-        var minY = Int.MAX_VALUE
-        var maxY = Int.MIN_VALUE
+        val min = RobotPos(Int.MAX_VALUE, Int.MAX_VALUE)
+        val max = RobotPos(Int.MIN_VALUE, Int.MIN_VALUE)
         panels.keys.forEach {
-            if (it.x < minX) minX = it.x
-            if (it.x > maxX) maxX = it.x
-            if (it.y < minY) minY = it.y
-            if (it.y > maxY) maxY = it.y
+            if (it.x < min.x) min.x = it.x
+            if (it.x > max.x) max.x = it.x
+            if (it.y < min.y) min.y = it.y
+            if (it.y > max.y) max.y = it.y
         }
         val pos = RobotPos(0, 0)
         val sb = StringBuilder()
-        (maxY downTo minY).forEach { y ->
-            (minX..maxX).forEach {
+        (max.y downTo min.y).forEach { y ->
+            (min.x..max.x).forEach {
                 sb.append(
                     panels[pos.apply {
                         this.x = it
