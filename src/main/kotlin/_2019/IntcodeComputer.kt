@@ -1,5 +1,7 @@
 package _2019
 
+import java.util.*
+
 class IntcodeComputer {
     var debug = false
     var printOut = true
@@ -11,9 +13,7 @@ class IntcodeComputer {
     var pointer = 0
         private set
     private var lastPointer = 0
-    lateinit var input: LongArray
-        private set
-    var nextInput = 0
+    lateinit var input: LinkedList<Long>
         private set
     private var opCode: OpCode? = null
     private val paramModes = arrayOf(ParamMode.POSITION, ParamMode.POSITION, ParamMode.POSITION)
@@ -25,7 +25,7 @@ class IntcodeComputer {
 
     constructor() {
         code = mutableListOf()
-        input = longArrayOf()
+        input = LinkedList()
     }
 
     constructor(code: String, vararg input: Long = longArrayOf(0)) : this(parseCode(code), *input)
@@ -38,11 +38,19 @@ class IntcodeComputer {
 
     fun init(code: MutableList<Long>, vararg input: Long = longArrayOf(0)): IntcodeComputer = apply {
         this.code = code
-        this.input = input
+        this.input = LinkedList()
+        this.input.addAll(input.toList())
         pointer = 0
         lastPointer = 0
-        nextInput = 0
         opCode = null
+    }
+
+    fun addInput(value: Long) {
+        input.add(value)
+    }
+
+    fun clearLastOutput() {
+        lastOutput = ""
     }
 
     private fun canExecute() = code.isEmpty() || isFinished()
@@ -99,8 +107,9 @@ class IntcodeComputer {
     }
 
     private fun getInput(): Long {
-        val i = input[nextInput++]
-        println("Got input: $i")
+        val i = input.removeFirst()
+        if (debug)
+            println("Got input: $i")
         return i
     }
 
