@@ -13,8 +13,7 @@ class IntcodeComputer {
     var pointer = 0
         private set
     private var lastPointer = 0
-    lateinit var input: LinkedList<Long>
-        private set
+    var input: () -> Long = { throw RuntimeException("No input provided") }
     private var opCode: OpCode? = null
     private val paramModes = arrayOf(ParamMode.POSITION, ParamMode.POSITION, ParamMode.POSITION)
     private var relativeBase: Long = 0
@@ -25,7 +24,12 @@ class IntcodeComputer {
 
     constructor() {
         code = mutableListOf()
-        input = LinkedList()
+    }
+
+    constructor(code: String, input: Long = 0) : this(parseCode(code), input)
+
+    constructor(code: MutableList<Long>, input: Long = 0) {
+        init(code, input)
     }
 
     constructor(code: String, vararg input: Long = longArrayOf(0)) : this(parseCode(code), *input)
@@ -36,17 +40,25 @@ class IntcodeComputer {
 
     fun isFinished() = opCode != null && opCode!!.isEnd()
 
-    fun init(code: MutableList<Long>, vararg input: Long = longArrayOf(0)): IntcodeComputer = apply {
+    fun init(code: MutableList<Long>, input: Long): IntcodeComputer = init(code) { input }
+
+    fun init(code: MutableList<Long>, vararg input: Long): IntcodeComputer = init(code, LinkedList(input.toList()))
+
+    private fun init(code: MutableList<Long>, input: LinkedList<Long>): IntcodeComputer =
+        init(code) { input.removeFirst() }
+
+    fun init(): IntcodeComputer = init(code, input)
+
+    private fun init(code: MutableList<Long>, input: () -> Long): IntcodeComputer = apply {
         this.code = code
-        this.input = LinkedList()
-        this.input.addAll(input.toList())
+        this.input = input
         pointer = 0
         lastPointer = 0
         opCode = null
     }
 
-    fun addInput(value: Long) {
-        input.add(value)
+    fun setInput(input: Long) {
+        this.input = { input }
     }
 
     fun clearLastOutput() {
@@ -88,6 +100,14 @@ class IntcodeComputer {
         return this
     }
 
+    fun execute(stepOp: IntcodeComputer.() -> Unit): IntcodeComputer {
+        while (!isFinished()) {
+            executeStep()
+            stepOp(this)
+        }
+        return this
+    }
+
     fun getDirect(index: Int) = code.getOrElse(index) { 0 }
 
     /**
@@ -106,8 +126,8 @@ class IntcodeComputer {
         code[indexToSetAt] = value
     }
 
-    private fun getInput(): Long {
-        val i = input.removeFirst()
+    private fun getNextInput(): Long {
+        val i = input()
         if (debug)
             println("Got input: $i")
         return i
@@ -148,7 +168,7 @@ class IntcodeComputer {
         },
         IN(3, 1) {
             override fun execute(computer: IntcodeComputer) = computer.run {
-                set(0, getInput())
+                set(0, getNextInput())
                 if (debug)
                     println("IN: ${get(0)}")
                 super.execute(this)

@@ -61,7 +61,7 @@ private fun paint(input: String, startPanel: PaintColour): Map<RobotPos, PaintCo
 //                    println("Turned ${if (outputInt == 0) "left" else "right"} and moved forward to $pos")
                     clearLastOutput()
                     lastPainted = null
-                    addInput(panels.getOrDefault(pos, PaintColour.BLACK).ordinal.toLong())
+                    setInput(panels.getOrDefault(pos, PaintColour.BLACK).ordinal.toLong())
                 }
             }
         }
