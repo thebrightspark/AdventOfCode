@@ -15,20 +15,7 @@ fun main() {
             printOut = false
             code[0] = 2
         }
-        var screen: Screen
-        var joystickInput: Long = 0
-        var i = 0
-        do {
-            computer.input = { joystickInput }
-            println("Run ${i++} with joystick input $joystickInput")
-            screen = runGame(computer)
-            printScreen(screen)
-            joystickInput = when {
-                screen.ballPos.x < screen.paddlePos.x -> -1
-                screen.ballPos.x > screen.paddlePos.x -> 1
-                else -> 0
-            }
-        } while (screen.numBlocks > 0)
+        val screen = runGame(computer)
         return@aocRun screen.score
     }
 }
@@ -36,7 +23,7 @@ fun main() {
 private fun runGame(computer: IntcodeComputer): Screen {
     val screen = Screen()
     val outputList = mutableListOf<Int>()
-    computer.init()
+    computer.input = { screen.calcJoystickInput() }
     computer.execute {
         if (lastOutput.isNotBlank()) {
             outputList += lastOutput.toInt()
@@ -83,10 +70,22 @@ private class Screen {
 
     var numBlocks = 0
         private set
-    lateinit var paddlePos: TilePos
-        private set
-    lateinit var ballPos: TilePos
-        private set
+    private var paddlePos: TilePos? = null
+    private var ballPos: TilePos? = null
+
+    fun isInitialised() = paddlePos != null && ballPos != null
+
+    fun getPaddlePos() = paddlePos!!
+
+    fun getBallPos() = ballPos!!
+
+    fun calcJoystickInput(): Long = if (isInitialised())
+        when {
+            getBallPos().x < getPaddlePos().x -> -1
+            getBallPos().x > getPaddlePos().x -> 1
+            else -> 0
+        }
+    else 0
 
     operator fun get(key: TilePos) = tiles[key]
 
@@ -104,6 +103,8 @@ private class Screen {
             Tile.BALL -> ballPos = key
             else -> Unit
         }
+//        if (isInitialised())
+//            println("$key = $tile")
     }
 }
 
