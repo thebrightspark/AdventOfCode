@@ -4,4 +4,5 @@ hs_err_pid*
 out/
 .gradle/
 .idea/
+!/.idea/fileTemplates/
 build/
