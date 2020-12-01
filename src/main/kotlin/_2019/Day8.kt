@@ -9,7 +9,7 @@ fun main() {
         val imageSize = imageWidth * imageHeight
         val layer = input.chunked(imageSize)
             .map { layer -> layer to layer.toCharArray().count { it == '0' } }
-            .minBy { it.second }!!.first
+            .minByOrNull { it.second }!!.first
         return@aocRun layer.count { it == '1' } * layer.count { it == '2' }
     }
 

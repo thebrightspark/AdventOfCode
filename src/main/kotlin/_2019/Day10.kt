@@ -63,7 +63,7 @@ private fun calcBestAsteroid(asteroidGrid: List<List<Boolean>>): Pair<Int, Int> 
     asteroidGrid.forEachIndexed { y, line ->
         println(line.mapIndexed { x, _ -> asteroids[x to y]?.toString() ?: "." }.joinToString(separator = " "))
     }*/
-    return asteroids.maxBy { it.value }!!.key
+    return asteroids.maxByOrNull { it.value }!!.key
 }
 
 private fun getVisibleAsteroids(x1: Int, y1: Int, asteroidGrid: List<List<Boolean>>): List<Pair<Int, Int>> {

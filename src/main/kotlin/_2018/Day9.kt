@@ -99,7 +99,7 @@ private fun calculateHighestScore(players: Int, last: Int, printCompletionPct: B
         //println("Cur pos now: $curPos")
         curPlayer = next(players, curPlayer, 1)
     }
-    return scores.values.max()!!
+    return scores.values.maxOrNull()!!
 }
 
 private const val testInput = "10 players; last marble is worth 1618 points"

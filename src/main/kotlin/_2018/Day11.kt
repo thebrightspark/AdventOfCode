@@ -8,7 +8,7 @@ fun main() {
         //grid.forEach { println(it.joinToString()) }
 
         val totals = calcTotals(grid, 3)
-        return@aocRun totals.maxBy { it.value }.let { "(${it!!.key.first + 1},${it.key.second + 1}) = ${it.value}" }
+        return@aocRun totals.maxByOrNull { it.value }.let { "(${it!!.key.first + 1},${it.key.second + 1}) = ${it.value}" }
     }
 
     aocRun(puzzleInput) { input ->
@@ -16,7 +16,7 @@ fun main() {
         println("Calculated power levels")
         val totals = (0..300).toList().stream().parallel().map { it to calcTotals(grid, it) }
         val largestTotalsPerSize = totals.map { sizeTotals ->
-            val largestForSize = sizeTotals.second.maxBy { it.value }!!
+            val largestForSize = sizeTotals.second.maxByOrNull { it.value }!!
             return@map Triple(largestForSize.key, largestForSize.value, sizeTotals.first)
         }
         val largestTotal = largestTotalsPerSize.max { o1, o2 -> o1.second.compareTo(o2.second) }.get()

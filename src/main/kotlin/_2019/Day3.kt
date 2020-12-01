@@ -10,7 +10,7 @@ fun main() {
         val wire1 = parseWire(wiresRaw[0])
         val wire2 = parseWire(wiresRaw[1])
         val intersections = intersections(wire1, wire2)
-        return@aocRun intersections.map { Pair(it, it.dist()) }.minBy { it.second }!!
+        return@aocRun intersections.map { Pair(it, it.dist()) }.minByOrNull { it.second }!!
     }
 
     aocRun(puzzleInput) { input ->
@@ -26,7 +26,7 @@ fun main() {
             val total = steps1 + steps2
 //            println("$it -> $steps1 + $steps2 = $total")
             Pair(it, total)
-        }.minBy { it.second }!!
+        }.minByOrNull { it.second }!!
     }
 }
 

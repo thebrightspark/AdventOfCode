@@ -89,7 +89,7 @@ private fun moonAxisMatches(
     return true
 }
 
-private fun lcm(vararg ints: Int): Long = lcmInternal(num = ints.max()!!.toLong(), ints = ints.map { it.toLong() })
+private fun lcm(vararg ints: Int): Long = lcmInternal(num = ints.maxOrNull()!!.toLong(), ints = ints.map { it.toLong() })
 
 private tailrec fun lcmInternal(num: Long, increment: Long = num, ints: List<Long>): Long =
     if (ints.all { num % it == 0.toLong() }) num else lcmInternal(num + increment, increment, ints)

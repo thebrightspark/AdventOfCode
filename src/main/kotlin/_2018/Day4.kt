@@ -28,7 +28,7 @@ fun main() {
                 else -> Unit
             }
         }
-        val mostSleep = totalSleep.entries.maxBy { it.value }!!
+        val mostSleep = totalSleep.entries.maxByOrNull { it.value }!!
         val guardId = mostSleep.key
         println("ID: $guardId, Sleep: ${mostSleep.value.format()}mins")
 
@@ -46,7 +46,7 @@ fun main() {
                 else -> Unit
             }
         }
-        val mostFrequentMinute = sleepFrequencyByMin.entries.maxBy { it.value }!!.key
+        val mostFrequentMinute = sleepFrequencyByMin.entries.maxByOrNull { it.value }!!.key
         println("Min: $mostFrequentMinute")
 
         return@aocRun guardId * mostFrequentMinute
@@ -78,7 +78,7 @@ fun main() {
         var guardId = 0
         var count = 0
         sleepFrequency.forEach { min, map ->
-            val maxEntry = map.maxBy { it.value }!!
+            val maxEntry = map.maxByOrNull { it.value }!!
             if (maxEntry.value > count) {
                 minute = min
                 guardId = maxEntry.key

@@ -28,7 +28,7 @@ fun main() {
         border1.forEachPoint { x, y ->
             val p = Point(x, y)
             val distances = locationsWithId.map { it.value to manhattanDistance(it.key, p) }
-            val nearest = distances.minBy { it.second }!!
+            val nearest = distances.minByOrNull { it.second }!!
             if (distances.count { it.second == nearest.second } == 1) {
                 grid[p] = nearest.first
                 sizes.compute(nearest.first) { _, count -> (count ?: 0) + 1 }
@@ -48,7 +48,7 @@ fun main() {
                 transform = { "${it.key} -> ${it.value}" })}"
         )
 
-        return@aocRun filteredSizes.maxBy { it.value }!!.value
+        return@aocRun filteredSizes.maxByOrNull { it.value }!!.value
     }
 
     aocRun(puzzleInput) { input ->
@@ -72,11 +72,11 @@ private fun processLocations(input: String): List<Point> = input.split("\n").map
 
 private fun createBorder(locations: List<Point>): Rectangle {
     val locXs = locations.map { it.x }
-    val minX = locXs.min()!!
-    val maxX = locXs.max()!!
+    val minX = locXs.minOrNull()!!
+    val maxX = locXs.maxOrNull()!!
     val locYs = locations.map { it.y }
-    val minY = locYs.min()!!
-    val maxY = locYs.max()!!
+    val minY = locYs.minOrNull()!!
+    val maxY = locYs.maxOrNull()!!
     return Rectangle(minX, minY, maxX - minX, maxY - minY)
 }
 

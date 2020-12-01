@@ -59,10 +59,10 @@ private fun parsePoints(input: String): Points = Points(
 )
 
 private class PointsArea(points: List<Point>) {
-    val minX = points.minBy { it.posX }!!.posX
-    val minY = points.minBy { it.posY }!!.posY
-    val maxX = points.maxBy { it.posX }!!.posX
-    val maxY = points.maxBy { it.posY }!!.posY
+    val minX = points.minByOrNull { it.posX }!!.posX
+    val minY = points.minByOrNull { it.posY }!!.posY
+    val maxX = points.maxByOrNull { it.posX }!!.posX
+    val maxY = points.maxByOrNull { it.posY }!!.posY
     val area = (maxX - minX) * (maxY - minY)
 }
 
