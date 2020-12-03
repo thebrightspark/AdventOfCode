@@ -1,6 +1,5 @@
 import java.util.regex.Matcher
 import java.util.regex.Pattern
-import java.util.stream.Collectors
 import kotlin.math.abs
 import kotlin.system.measureNanoTime
 
@@ -21,14 +20,13 @@ fun <I : Any, R : Any> aocRun(input: I, function: (I) -> R) {
 }
 
 fun <T> parseInput(regex: Pattern, input: String, inputDelimiter: String = "\n", converter: (Matcher) -> T): List<T> =
-    input.split(inputDelimiter).stream()
+    input.split(inputDelimiter)
         .map {
             val matcher = regex.matcher(it)
             if (!matcher.find())
                 throw RuntimeException("Not a valid input! -> '$input'")
             return@map converter(matcher)
         }
-        .collect(Collectors.toList())
 
 /**
  * Gets an [IntProgression] from [int1] to [int2] regardless of which is larger than the other

@@ -10,7 +10,7 @@ fun Number.format(): String = numberFormat.format(this)
 
 fun String.splitInputToInt(): List<Int> = this.split("\n").map { it.toInt() }
 
-fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T) =
+fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T): List<T> =
     this.split(delimiter).map {
         val matcher = regex.matcher(it)
         if (matcher.matches())
