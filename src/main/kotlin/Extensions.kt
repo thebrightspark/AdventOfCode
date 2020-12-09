@@ -10,6 +10,8 @@ fun Number.format(): String = numberFormat.format(this)
 
 fun String.splitInputToInt(): List<Int> = this.split("\n").map { it.toInt() }
 
+fun String.splitInputToLong(): List<Long> = this.split("\n").map { it.toLong() }
+
 fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T): List<T> =
     this.split(delimiter).map {
         val matcher = regex.matcher(it)
@@ -38,6 +40,16 @@ fun <T> List<T>.forEachComparison(consumer: (value1: T, value2: T) -> Boolean) {
                 return@forEachIndexed
         }
     }
+}
+
+fun <T> List<T>.anyComparison(consumer: (value1: T, value2: T) -> Boolean): Boolean {
+    this.subList(0, size - 1).forEachIndexed { index1, value1 ->
+        this.subList(index1 + 1, size).forEach { value2 ->
+            if (consumer(value1, value2))
+                return true
+        }
+    }
+    return false
 }
 
 fun Rectangle.forEachPoint(consumer: (x: Int, y: Int) -> Unit) {
