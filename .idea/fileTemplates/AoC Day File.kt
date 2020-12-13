@@ -5,10 +5,14 @@
 import aocRun
 
 fun main() {
-    aocRun(puzzleInput) { input ->
+    aocRun(testInput) { input ->
     
     }
 }
+
+private val testInput = """
+
+""".trimIndent()
 
 private val puzzleInput = """
 
