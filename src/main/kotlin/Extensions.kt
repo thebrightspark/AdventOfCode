@@ -8,17 +8,20 @@ private val numberFormat = NumberFormat.getNumberInstance()
 
 fun Number.format(): String = numberFormat.format(this)
 
-fun String.splitInputToInt(): List<Int> = this.split("\n").map { it.toInt() }
+fun String.splitInputToInt(delimiter: String = "\n"): List<Int> = this.split(delimiter).map { it.toInt() }
 
-fun String.splitInputToLong(): List<Long> = this.split("\n").map { it.toLong() }
+fun String.splitInputToIntMut(delimiter: String = "\n"): MutableList<Int> =
+	this.split(delimiter).mapTo(mutableListOf()) { it.toInt() }
+
+fun String.splitInputToLong(delimiter: String = "\n"): List<Long> = this.split(delimiter).map { it.toLong() }
 
 fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T): List<T> =
-    this.split(delimiter).map {
-        val matcher = regex.matcher(it)
-        if (matcher.matches())
-            throw RuntimeException("Input '$it' doesn't match regex '${regex.pattern()}'")
-        return@map converter(matcher)
-    }
+	this.split(delimiter).map {
+		val matcher = regex.matcher(it)
+		if (matcher.matches())
+			throw RuntimeException("Input '$it' doesn't match regex '${regex.pattern()}'")
+		return@map converter(matcher)
+	}
 
 /**
  * Runs the [consumer] for each unique comparison of values in the list.
