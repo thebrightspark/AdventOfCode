@@ -1,7 +1,7 @@
 package _2020
 
 import aocRun
-import splitInputToIntMut
+import splitToIntsMut
 
 fun main() {
 	aocRun(puzzleInput) { input ->
@@ -13,7 +13,7 @@ fun main() {
 }
 
 private fun runGame(input: String, turns: Int): Int {
-	val numbers = input.splitInputToIntMut(",")
+	val numbers = input.splitToIntsMut(",")
 	val lastPositions = mutableMapOf<Int, Int>()
 	(0 until numbers.size - 1).map { numbers[it] }.forEachIndexed { index, num ->
 		lastPositions[num] = index + 1

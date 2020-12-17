@@ -8,12 +8,12 @@ private val numberFormat = NumberFormat.getNumberInstance()
 
 fun Number.format(): String = numberFormat.format(this)
 
-fun String.splitInputToInt(delimiter: String = "\n"): List<Int> = this.split(delimiter).map { it.toInt() }
+fun String.splitToInts(delimiter: String = "\n"): List<Int> = this.split(delimiter).map { it.toInt() }
 
-fun String.splitInputToIntMut(delimiter: String = "\n"): MutableList<Int> =
+fun String.splitToIntsMut(delimiter: String = "\n"): MutableList<Int> =
 	this.split(delimiter).mapTo(mutableListOf()) { it.toInt() }
 
-fun String.splitInputToLong(delimiter: String = "\n"): List<Long> = this.split(delimiter).map { it.toLong() }
+fun String.splitToLongs(delimiter: String = "\n"): List<Long> = this.split(delimiter).map { it.toLong() }
 
 fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T): List<T> =
 	this.split(delimiter).map {

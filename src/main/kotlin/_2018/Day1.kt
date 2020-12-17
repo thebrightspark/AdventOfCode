@@ -1,17 +1,17 @@
 package _2018
 
 import aocRun
-import splitInputToInt
+import splitToInts
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        return@aocRun input.splitInputToInt().sum()
+        return@aocRun input.splitToInts().sum()
     }
 
     aocRun(puzzleInput) { input ->
         var curResult = 0
         val results = HashSet<Int>()
-        val inputList = input.splitInputToInt()
+        val inputList = input.splitToInts()
         while (true) {
             inputList.forEach { num ->
                 curResult += num

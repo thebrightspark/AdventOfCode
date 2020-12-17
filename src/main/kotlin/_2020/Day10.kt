@@ -1,7 +1,7 @@
 package _2020
 
 import aocRun
-import splitInputToInt
+import splitToInts
 import kotlin.math.pow
 
 fun main() {
@@ -54,7 +54,7 @@ fun main() {
 	}
 }
 
-private fun createSortedAdapterList(input: String): List<Int> = input.splitInputToInt().toMutableList().apply {
+private fun createSortedAdapterList(input: String): List<Int> = input.splitToInts().toMutableList().apply {
 	add(0)
 	add(maxOrNull()!! + 3)
 	sort()

@@ -1,16 +1,16 @@
 package _2019
 
 import aocRun
-import splitInputToInt
+import splitToInts
 import kotlin.math.floor
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        return@aocRun input.splitInputToInt().stream().mapToInt { calcFuel(it) }.sum()
+        return@aocRun input.splitToInts().stream().mapToInt { calcFuel(it) }.sum()
     }
 
     aocRun(puzzleInput) { input ->
-        return@aocRun input.splitInputToInt().stream().mapToInt {
+        return@aocRun input.splitToInts().stream().mapToInt {
             val fuel = calcFuel(it)
             return@mapToInt fuel + calcExtraFuel(fuel)
         }.sum()

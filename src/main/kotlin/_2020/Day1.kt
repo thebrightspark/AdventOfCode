@@ -1,14 +1,14 @@
 package _2020
 
 import aocRun
-import splitInputToInt
+import splitToInts
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        return@aocRun find2NumsSum2020Mult(input.splitInputToInt())
+        return@aocRun find2NumsSum2020Mult(input.splitToInts())
     }
     aocRun(puzzleInput) { input ->
-        return@aocRun find3NumsSum2020Mult(input.splitInputToInt())
+        return@aocRun find3NumsSum2020Mult(input.splitToInts())
     }
 }
 

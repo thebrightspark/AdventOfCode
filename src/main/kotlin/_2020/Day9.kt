@@ -2,14 +2,14 @@ package _2020
 
 import anyComparison
 import aocRun
-import splitInputToLong
+import splitToLongs
 
 fun main() {
 	aocRun(puzzleInput) { input ->
-		return@aocRun findInvalid(input.splitInputToLong(), 25, 25)
+		return@aocRun findInvalid(input.splitToLongs(), 25, 25)
 	}
 	aocRun(puzzleInput) { input ->
-		val numbers = input.splitInputToLong()
+		val numbers = input.splitToLongs()
 		val invalidNum = findInvalid(numbers, 25, 25)
 		val range = findSetSummingTo(numbers, invalidNum)
 		val numbersInRange = range.map { numbers[it] }
