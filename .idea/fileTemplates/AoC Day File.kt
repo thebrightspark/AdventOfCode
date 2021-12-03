@@ -8,6 +8,8 @@ fun main() {
     aocRun(testInput) { input ->
     
     }
+//  aocRun(testInput) { input ->    
+//  }
 }
 
 private val testInput = """
