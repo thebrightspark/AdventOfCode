@@ -3,7 +3,9 @@ import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.system.measureNanoTime
 
-val REGEX_LINE_SEPARATOR = Regex("(\\r\\n|\\r|\\n)")
+const val PATTERN_LINE_SEPARATOR = "(\\r\\n|\\r|\\n)"
+val REGEX_LINE_SEPARATOR = Regex(PATTERN_LINE_SEPARATOR)
+val REGEX_WHITESPACE = Regex("\\s+")
 
 private var runs = 0
 

@@ -6,11 +6,11 @@ import splitToInts
 fun main() {
 	aoc(2021, 1) {
 		aocRun {
-            countIncreasingDepths(it.splitToInts())
-        }
+			countIncreasingDepths(it.splitToInts())
+		}
 		aocRun {
-            countIncreasing3MeasureDepths(it.splitToInts())
-        }
+			countIncreasing3MeasureDepths(it.splitToInts())
+		}
 	}
 }
 
