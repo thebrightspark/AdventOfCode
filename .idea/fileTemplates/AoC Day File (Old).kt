@@ -2,18 +2,20 @@
 #end
 #parse("File Header.java")
 
-import aoc
+import aocRun
 
 fun main() {
-    aoc(${YEAR}, ${DAY}) {
-        aocRun(testInput) { input ->
-        
-        }
-//        aocRun(testInput) { input ->
-//        }
+    aocRun(testInput) { input ->
+    
     }
+//    aocRun(testInput) { input ->
+//    }
 }
 
 private val testInput = """
+
+""".trimIndent()
+
+private val puzzleInput = """
 
 """.trimIndent()
