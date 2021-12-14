@@ -4,7 +4,7 @@ import aocRun
 
 fun main() {
     aocRun(puzzleInput) { input ->
-        val grid = calcPowerLevels(input)
+        val grid = calcPowerLevels(input.toInt())
         //grid.forEach { println(it.joinToString()) }
 
         val totals = calcTotals(grid, 3)
@@ -12,7 +12,7 @@ fun main() {
     }
 
     aocRun(puzzleInput) { input ->
-        val grid = calcPowerLevels(input)
+        val grid = calcPowerLevels(input.toInt())
         println("Calculated power levels")
         val totals = (0..300).toList().stream().parallel().map { it to calcTotals(grid, it) }
         val largestTotalsPerSize = totals.map { sizeTotals ->
@@ -62,4 +62,4 @@ private fun calc3x3TotalPower(grid: Array<Array<Int>>, squareSize: Int, x: Int, 
     return total
 }
 
-private const val puzzleInput = 9445
+private const val puzzleInput = "9445"

@@ -8,12 +8,13 @@ private val numberFormat = NumberFormat.getNumberInstance()
 
 fun Number.format(): String = numberFormat.format(this)
 
-fun String.splitToInts(delimiter: String = "\n"): List<Int> = this.split(delimiter).map { it.toInt() }
+fun String.splitToInts(delimiter: String = System.lineSeparator()): List<Int> = this.split(delimiter).map { it.toInt() }
 
-fun String.splitToIntsMut(delimiter: String = "\n"): MutableList<Int> =
+fun String.splitToIntsMut(delimiter: String = System.lineSeparator()): MutableList<Int> =
 	this.split(delimiter).mapTo(mutableListOf()) { it.toInt() }
 
-fun String.splitToLongs(delimiter: String = "\n"): List<Long> = this.split(delimiter).map { it.toLong() }
+fun String.splitToLongs(delimiter: String = System.lineSeparator()): List<Long> =
+	this.split(delimiter).map { it.toLong() }
 
 fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T): List<T> =
 	this.split(delimiter).map {
@@ -37,36 +38,36 @@ fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Mat
  *  If the [consumer] returns true then it'll break the loop for value1
  */
 fun <T> List<T>.forEachComparison(consumer: (value1: T, value2: T) -> Boolean) {
-    this.subList(0, size - 1).forEachIndexed { index1, value1 ->
-        this.subList(index1 + 1, size).forEach { value2 ->
-            if (consumer(value1, value2))
-                return@forEachIndexed
-        }
-    }
+	this.subList(0, size - 1).forEachIndexed { index1, value1 ->
+		this.subList(index1 + 1, size).forEach { value2 ->
+			if (consumer(value1, value2))
+				return@forEachIndexed
+		}
+	}
 }
 
 fun <T> List<T>.anyComparison(consumer: (value1: T, value2: T) -> Boolean): Boolean {
-    this.subList(0, size - 1).forEachIndexed { index1, value1 ->
-        this.subList(index1 + 1, size).forEach { value2 ->
-            if (consumer(value1, value2))
-                return true
-        }
-    }
-    return false
+	this.subList(0, size - 1).forEachIndexed { index1, value1 ->
+		this.subList(index1 + 1, size).forEach { value2 ->
+			if (consumer(value1, value2))
+				return true
+		}
+	}
+	return false
 }
 
 fun Rectangle.forEachPoint(consumer: (x: Int, y: Int) -> Unit) {
-    (this.x..this.x + this.width).forEach { x ->
-        (this.y..this.y + this.height).forEach { y ->
-            consumer(x, y)
-        }
-    }
+	(this.x..this.x + this.width).forEach { x ->
+		(this.y..this.y + this.height).forEach { y ->
+			consumer(x, y)
+		}
+	}
 }
 
 private fun appendTime(sb: StringBuilder, time: Long, unit: String) {
-    if (time <= 0) return
-    if (sb.isNotEmpty()) sb.append(" ")
-    sb.append(time).append(unit)
+	if (time <= 0) return
+	if (sb.isNotEmpty()) sb.append(" ")
+	sb.append(time).append(unit)
 }
 
 /**
@@ -74,20 +75,20 @@ private fun appendTime(sb: StringBuilder, time: Long, unit: String) {
  * e.g. 2h 30m 59s
  */
 fun Long.formatDurationNanos(): String {
-    var millis = TimeUnit.NANOSECONDS.toMillis(this)
-    if (millis == 0L) return "${this}ns"
+	var millis = TimeUnit.NANOSECONDS.toMillis(this)
+	if (millis == 0L) return "${this}ns"
 
-    val sb = StringBuilder()
-    val hours = TimeUnit.MILLISECONDS.toHours(millis)
-    appendTime(sb, hours, "h")
-    millis -= TimeUnit.HOURS.toMillis(hours)
-    val minutes = TimeUnit.MILLISECONDS.toMinutes(millis)
-    appendTime(sb, minutes, "m")
-    millis -= TimeUnit.MINUTES.toMillis(minutes)
-    val seconds = TimeUnit.MILLISECONDS.toSeconds(millis)
-    appendTime(sb, seconds, "s")
-    millis -= TimeUnit.SECONDS.toMillis(seconds)
-    appendTime(sb, millis, "ms")
+	val sb = StringBuilder()
+	val hours = TimeUnit.MILLISECONDS.toHours(millis)
+	appendTime(sb, hours, "h")
+	millis -= TimeUnit.HOURS.toMillis(hours)
+	val minutes = TimeUnit.MILLISECONDS.toMinutes(millis)
+	appendTime(sb, minutes, "m")
+	millis -= TimeUnit.MINUTES.toMillis(minutes)
+	val seconds = TimeUnit.MILLISECONDS.toSeconds(millis)
+	appendTime(sb, seconds, "s")
+	millis -= TimeUnit.SECONDS.toMillis(seconds)
+	appendTime(sb, millis, "ms")
 
-    return sb.toString()
+	return sb.toString()
 }
