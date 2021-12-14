@@ -1,28 +1,22 @@
 import java.awt.Rectangle
 import java.text.NumberFormat
 import java.util.concurrent.TimeUnit
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 private val numberFormat = NumberFormat.getNumberInstance()
 
 fun Number.format(): String = numberFormat.format(this)
 
-fun String.splitToInts(delimiter: String = System.lineSeparator()): List<Int> = this.split(delimiter).map { it.toInt() }
+fun String.splitToInts(delimiter: String): List<Int> = this.split(delimiter).map { it.toInt() }
 
-fun String.splitToIntsMut(delimiter: String = System.lineSeparator()): MutableList<Int> =
+fun String.splitToInts(delimiter: Regex = REGEX_LINE_SEPARATOR): List<Int> = this.split(delimiter).map { it.toInt() }
+
+fun String.splitToIntsMut(delimiter: String): MutableList<Int> =
 	this.split(delimiter).mapTo(mutableListOf()) { it.toInt() }
 
-fun String.splitToLongs(delimiter: String = System.lineSeparator()): List<Long> =
-	this.split(delimiter).map { it.toLong() }
+fun String.splitToIntsMut(delimiter: Regex = REGEX_LINE_SEPARATOR): MutableList<Int> =
+	this.split(delimiter).mapTo(mutableListOf()) { it.toInt() }
 
-fun <T> String.mapRegex(regex: Pattern, delimiter: String = ",", converter: (Matcher) -> T): List<T> =
-	this.split(delimiter).map {
-		val matcher = regex.matcher(it)
-		if (matcher.matches())
-			throw RuntimeException("Input '$it' doesn't match regex '${regex.pattern()}'")
-		return@map converter(matcher)
-	}
+fun String.splitToLongs(): List<Long> = this.split(REGEX_LINE_SEPARATOR).map { it.toLong() }
 
 /**
  * Runs the [consumer] for each unique comparison of values in the list.

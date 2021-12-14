@@ -3,6 +3,8 @@ import java.util.regex.Pattern
 import kotlin.math.abs
 import kotlin.system.measureNanoTime
 
+val REGEX_LINE_SEPARATOR = Regex("(\\r\\n|\\r|\\n)")
+
 private var runs = 0
 
 @Deprecated("Use aoc() instead")
@@ -23,9 +25,8 @@ fun <R : Any> aocRun(input: String, function: (String) -> R) {
 fun <T> parseInput(
 	regex: Pattern,
 	input: String,
-	inputDelimiter: String = System.lineSeparator(),
 	converter: (Matcher) -> T
-): List<T> = input.split(inputDelimiter).map {
+): List<T> = input.split(REGEX_LINE_SEPARATOR).map {
 	val matcher = regex.matcher(it)
 	if (!matcher.find())
 		throw RuntimeException("Not a valid input! -> '$input'")
