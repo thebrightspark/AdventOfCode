@@ -10,6 +10,7 @@ val REGEX_WHITESPACE = Regex("\\s+")
 private var runs = 0
 
 @Deprecated("Use aoc() instead")
+@Suppress("DuplicatedCode")
 fun <R : Any> aocRun(input: String, function: (String) -> R) {
 	lateinit var result: R
 	val time = measureNanoTime { result = function(input) }.formatDurationNanos()
@@ -38,6 +39,7 @@ fun <T> parseInput(
 /**
  * Gets an [IntProgression] from [int1] to [int2] regardless of which is larger than the other
  */
+@Suppress("FromClosedRangeMigration")
 fun range(int1: Int, int2: Int) = if (int1 == int2)
 	IntRange.EMPTY
 else
@@ -46,6 +48,7 @@ else
 /**
  * Gets an [IntProgression] of the integers between [int1] and [int2] regardless of which is larger than the other
  */
+@Suppress("FromClosedRangeMigration")
 fun between(int1: Int, int2: Int) = if (abs(int1 - int2) < 2)
 	IntRange.EMPTY
 else
