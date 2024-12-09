@@ -1,20 +1,18 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.21'
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
 }
 
 group 'brightspark'
 version '1'
 
 sourceCompatibility = JavaVersion.VERSION_17
-compileKotlin.kotlinOptions.jvmTarget = sourceCompatibility
-compileTestKotlin.kotlinOptions.jvmTarget = sourceCompatibility
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.21'
-    implementation 'org.jetbrains.kotlin:kotlin-reflect:1.9.21'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:2.1.0'
+    implementation 'org.jetbrains.kotlin:kotlin-reflect:2.1.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0'
 }
