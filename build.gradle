@@ -5,7 +5,12 @@ plugins {
 group 'brightspark'
 version '1'
 
-sourceCompatibility = JavaVersion.VERSION_17
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        vendor = JvmVendorSpec.ADOPTIUM
+    }
+}
 
 repositories {
     mavenCentral()
